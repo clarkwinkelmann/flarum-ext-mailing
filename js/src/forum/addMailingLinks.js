@@ -36,7 +36,8 @@ export default function () {
         }
     });
 
-    const userDirectory = flarum.extensions['flagrow-user-directory'];
+    // Supports both fof/user-directory and the now deprecated flagrow/user-directory
+    const userDirectory = flarum.extensions['fof-user-directory'] || flarum.extensions['flagrow-user-directory'];
     if (userDirectory && userDirectory.UserDirectoryPage) {
         extend(userDirectory.UserDirectoryPage.prototype, 'actionItems', items => {
             if (app.forum.kilowhatMailingCanMailAll()) {
