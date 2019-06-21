@@ -32,6 +32,9 @@
                 "backgroundColor": "#600000",
                 "color": "#ffffff"
             }
+        },
+        "flagrow": {
+            "discuss": "https://discuss.flarum.org/d/20443"
         }
     },
     "autoload": {

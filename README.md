@@ -18,7 +18,7 @@ The individual user mailing button can be found in the user card dropdown menu, 
 
 The mass mailing button can be found in the session dropdown menu under the link to the admin panel.
 
-If the Flagrow User Directory extension is enabled, the buttons for both features can be found on that page as well.
+If the FriendOfFlarum (or Flagrow) User Directory extension is enabled, the buttons for both features can be found on that page as well.
 
 Two permissions allow you to select which groups can send individual emails and emails to all users.
 
@@ -26,6 +26,11 @@ Two permissions allow you to select which groups can send individual emails and 
 
 This extension was written by Clark Winkelmann as part of a client contract and released under the MIT license in the hope that the code will be useful to others.
 
-This extension is publicly published and you are free to install it on your own forum, however no free support is offered.
+This extension is published on Packagist and you are welcome to install it on your own forum, however **no free support is offered**.
 
 Please [contact me](https://clarkwinkelmann.com/flarum) if you are interested in contracting me to add features or update this extension.
+
+## Links
+
+- [Source on GitHub](https://github.com/kilowhat/flarum-ext-mailing)
+- [Package on Packagist](https://packagist.org/packages/kilowhat/flarum-ext-mailing)
