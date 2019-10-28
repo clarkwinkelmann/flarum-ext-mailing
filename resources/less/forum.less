@@ -1,0 +1,109 @@
+.KilowhatMailingModal {
+    // Style based on TagDiscussionModal.less from flarum/tags
+    .RecipientsInput {
+        padding-top: 0;
+        padding-bottom: 0;
+        height: auto;
+        position: relative;
+
+        input {
+            display: inline;
+            outline: none;
+            margin-top: -2px;
+            border: 0 !important;
+            padding: 0;
+            width: 100%;
+            margin-right: -100%;
+            background: transparent !important;
+        }
+
+        .LoadingIndicator {
+            float: right;
+            pointer-events: none;
+        }
+
+        .Dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            display: block;
+        }
+    }
+
+    .RecipientsInput-recipient {
+        cursor: not-allowed;
+    }
+
+    .RecipientsInput-selected {
+        .RecipientsInput-recipient {
+            margin-right: 5px;
+
+            &:last-child {
+                margin-right: 10px;
+            }
+        }
+    }
+
+    .RecipientLabel {
+        font-size: 85%;
+        font-weight: 600;
+        display: inline-block;
+        padding: 0.1em 0.5em;
+        border-radius: @border-radius;
+        background: @control-bg;
+        color: @control-color;
+        text-transform: none;
+
+        &.colored {
+            color: @body-bg !important;
+        }
+    }
+
+    .SearchResultKind {
+        display: inline-block;
+        min-width: 5em;
+        color: #aaa;
+        font-style: italic;
+    }
+
+    textarea {
+        resize: vertical;
+        width: 100%;
+    }
+}
+
+.KilowhatMailingSentModal {
+    .MailingShipping {
+        background: @alert-success-bg;
+        color: @alert-success-color;
+        font-size: 70px;
+        padding: 30px;
+        overflow: hidden;
+
+        .icon {
+            animation: kilowhat-mailing-truck 2s cubic-bezier(0.55, 0.085, 0.68, 0.53);
+            transform: translateX(400px);
+        }
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 1.5em;
+    }
+}
+
+@keyframes kilowhat-mailing-truck {
+    0% {
+        transform: translateX(0);
+    }
+    10% {
+        transform: translateX(0) rotate(0);
+    }
+    20% {
+        transform: translateX(-10px) rotate(-5deg);
+    }
+    100% {
+        transform: translateX(400px) rotate(0);
+    }
+}
