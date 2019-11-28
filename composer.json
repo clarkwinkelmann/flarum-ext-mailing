@@ -22,7 +22,7 @@
         "source": "https://github.com/kilowhat/flarum-ext-mailing"
     },
     "require": {
-        "flarum/core": ">=0.1.0-beta.8 <0.1.0-beta.11"
+        "flarum/core": ">=0.1.0-beta.8 <0.1.0-beta.12"
     },
     "minimum-stability": "beta",
     "extra": {
