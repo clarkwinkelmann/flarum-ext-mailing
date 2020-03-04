@@ -6,7 +6,7 @@ Send individual or mass mailing to Flarum users.
 
 ## Installation
 
-This extension can be installed on Flarum beta 8.x, 9.x, 10.x and 11.x **only**.
+This extension can be installed on Flarum beta 8.x, up to 12.x **only**.
 
 ```bash
 composer require kilowhat/flarum-ext-mailing
