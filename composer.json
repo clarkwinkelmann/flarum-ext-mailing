@@ -10,6 +10,9 @@
     ],
     "type": "flarum-extension",
     "license": "MIT",
+    "require": {
+        "flarum/core": ">=0.1.0-beta.8 <0.1.0-beta.14"
+    },
     "authors": [
         {
             "name": "Clark Winkelmann",
@@ -21,10 +24,11 @@
         "issues": "https://github.com/kilowhat/flarum-ext-mailing/issues",
         "source": "https://github.com/kilowhat/flarum-ext-mailing"
     },
-    "require": {
-        "flarum/core": ">=0.1.0-beta.8 <0.1.0-beta.13"
+    "autoload": {
+        "psr-4": {
+            "Kilowhat\\Mailing\\": "src/"
+        }
     },
-    "minimum-stability": "beta",
     "extra": {
         "flarum-extension": {
             "title": "Mailing",
@@ -36,11 +40,6 @@
         },
         "flagrow": {
             "discuss": "https://discuss.flarum.org/d/20443"
-        }
-    },
-    "autoload": {
-        "psr-4": {
-            "Kilowhat\\Mailing\\": "src/"
         }
     }
 }
