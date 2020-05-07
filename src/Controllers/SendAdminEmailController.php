@@ -16,6 +16,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Zend\Diactoros\Response\JsonResponse;
+use s9e\TextFormatter\Bundles\Fatdown;
 
 class SendAdminEmailController implements RequestHandlerInterface
 {
@@ -112,7 +113,9 @@ class SendAdminEmailController implements RequestHandlerInterface
 
     protected function sendMail(string $email, string $subject, string $text)
     {
-        $this->mailer->send(['raw' => $text], [], function (Message $message) use ($email, $subject) {
+        $formated_text = Fatdown::render(Fatdown::parse($text));
+
+        $this->mailer->send('kilowhat-mailing::default', ['body' => $formated_text], function (Message $message) use ($email, $subject) {
             $message->to($email);
             $message->subject('[' . $this->settings->get('forum_title') . '] ' . ($subject !== '' ? $subject : $this->translator->trans('kilowhat-mailing.email.default_subject')));
         });
