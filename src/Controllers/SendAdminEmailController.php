@@ -4,34 +4,29 @@ namespace Kilowhat\Mailing\Controllers;
 
 use Flarum\Foundation\ValidationException;
 use Flarum\Group\Group;
-use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\AssertPermissionTrait;
 use Flarum\User\UserRepository;
+use Illuminate\Contracts\Queue\Queue;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Mail\Mailer;
-use Illuminate\Mail\Message;
 use Illuminate\Support\Arr;
+use Kilowhat\Mailing\Jobs\SendMail;
+use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
-use Zend\Diactoros\Response\JsonResponse;
 
 class SendAdminEmailController implements RequestHandlerInterface
 {
     use AssertPermissionTrait;
 
-    protected $settings;
-    protected $mailer;
-    protected $translator;
     protected $users;
+    protected $queue;
 
-    public function __construct(SettingsRepositoryInterface $settings, Mailer $mailer, TranslatorInterface $translator, UserRepository $users)
+    public function __construct(UserRepository $users, Queue $queue)
     {
-        $this->settings = $settings;
-        $this->mailer = $mailer;
-        $this->translator = $translator;
         $this->users = $users;
+        $this->queue = $queue;
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
@@ -80,14 +75,14 @@ class SendAdminEmailController implements RequestHandlerInterface
 
         $userQuery->chunk(50, function ($users) use ($data, &$recipientCount) {
             foreach ($users as $user) {
-                $this->sendMail($user->email, $data['subject'], $data['text']);
+                $this->queue->push(new SendMail($user->email, $data['subject'], $data['text']));
 
                 $recipientCount++;
             }
         });
 
         foreach ($emails as $email) {
-            $this->sendMail($email, $data['subject'], $data['text']);
+            $this->queue->push(new SendMail($email, $data['subject'], $data['text']));
 
             $recipientCount++;
         }
@@ -108,13 +103,5 @@ class SendAdminEmailController implements RequestHandlerInterface
         return new JsonResponse([
             'recipientsCount' => $recipientCount,
         ]);
-    }
-
-    protected function sendMail(string $email, string $subject, string $text)
-    {
-        $this->mailer->send(['raw' => $text], [], function (Message $message) use ($email, $subject) {
-            $message->to($email);
-            $message->subject('[' . $this->settings->get('forum_title') . '] ' . ($subject !== '' ? $subject : $this->translator->trans('kilowhat-mailing.email.default_subject')));
-        });
     }
 }
