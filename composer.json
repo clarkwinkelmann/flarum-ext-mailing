@@ -13,6 +13,9 @@
     "require": {
         "flarum/core": ">=0.1.0-beta.14 <0.1.0-beta.15"
     },
+    "replace": {
+        "kilowhat/flarum-ext-mailing": "*"
+    },
     "authors": [
         {
             "name": "Clark Winkelmann",
