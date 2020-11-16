@@ -39,4 +39,4 @@ Support is offered on a "best effort" basis through the Flarum community thread.
 
 - [GitHub](https://github.com/clarkwinkelmann/flarum-ext-mailing)
 - [Packagist](https://packagist.org/packages/clarkwinkelmann/flarum-ext-mailing)
-- [Discuss](https://discuss.flarum.org/d/25357)
+- [Discuss](https://discuss.flarum.org/d/20443)
