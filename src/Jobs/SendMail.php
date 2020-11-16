@@ -1,13 +1,13 @@
 <?php
 
-namespace Kilowhat\Mailing\Jobs;
+namespace ClarkWinkelmann\Mailing\Jobs;
 
 use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Mail\Mailer;
 use Illuminate\Mail\Message;
-use Symfony\Component\Translation\TranslatorInterface;
 
 class SendMail implements ShouldQueue
 {
@@ -24,11 +24,11 @@ class SendMail implements ShouldQueue
         $this->text = $text;
     }
 
-    public function handle(SettingsRepositoryInterface $settings, Mailer $mailer, TranslatorInterface $translator)
+    public function handle(SettingsRepositoryInterface $settings, Mailer $mailer, Translator $translator)
     {
         $mailer->send(['raw' => $this->text], [], function (Message $message) use ($settings, $translator) {
             $message->to($this->email);
-            $message->subject('[' . $settings->get('forum_title') . '] ' . ($this->subject !== '' ? $this->subject : $translator->trans('kilowhat-mailing.email.default_subject')));
+            $message->subject('[' . $settings->get('forum_title') . '] ' . ($this->subject !== '' ? $this->subject : $translator->get('kilowhat-mailing.email.default_subject')));
         });
     }
 }

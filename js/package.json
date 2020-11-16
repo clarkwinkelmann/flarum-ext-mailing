@@ -1,5 +1,5 @@
 {
-    "name": "@kilowhat/mailing",
+    "name": "@clarkwinkelmann/flarum-ext-mailing",
     "private": true,
     "dependencies": {
         "flarum-webpack-config": "^0.1.0-beta.10",

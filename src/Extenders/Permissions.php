@@ -1,6 +1,6 @@
 <?php
 
-namespace Kilowhat\Mailing\Extend;
+namespace ClarkWinkelmann\Mailing\Extenders;
 
 use Flarum\Api\Event\Serializing;
 use Flarum\Api\Serializer\ForumSerializer;

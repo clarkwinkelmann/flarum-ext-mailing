@@ -1,25 +1,22 @@
 <?php
 
-namespace Kilowhat\Mailing\Controllers;
+namespace ClarkWinkelmann\Mailing\Controllers;
 
 use Flarum\Foundation\ValidationException;
 use Flarum\Group\Group;
-use Flarum\User\AssertPermissionTrait;
 use Flarum\User\UserRepository;
 use Illuminate\Contracts\Queue\Queue;
+use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
-use Kilowhat\Mailing\Jobs\SendMail;
+use ClarkWinkelmann\Mailing\Jobs\SendMail;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Symfony\Component\Translation\TranslatorInterface;
 
 class SendAdminEmailController implements RequestHandlerInterface
 {
-    use AssertPermissionTrait;
-
     protected $users;
     protected $queue;
 
@@ -43,7 +40,7 @@ class SendAdminEmailController implements RequestHandlerInterface
         })->toArray();
 
         $emails = $recipients->filter(function ($model) {
-            return Arr::get($model, 'type') === 'kilowhat-mailing-emails';
+            return Arr::get($model, 'type') === 'clarkwinkelmann-mailing-emails';
         })->map(function ($model) {
             return Arr::get($model, 'attributes.email');
         })->toArray();
@@ -55,9 +52,9 @@ class SendAdminEmailController implements RequestHandlerInterface
         })->toArray();
 
         if (count($groupIds)) {
-            $this->assertCan($actor, 'kilowhat-mailing.mail-all');
+            $actor->assertCan('kilowhat-mailing.mail-all');
         } else {
-            $this->assertCan($actor, 'kilowhat-mailing.mail-individual');
+            $actor->assertCan('kilowhat-mailing.mail-individual');
         }
 
         $userQuery = $this->users->query();
@@ -89,13 +86,13 @@ class SendAdminEmailController implements RequestHandlerInterface
 
         if ($recipientCount === 0) {
             /**
-             * @var $translator TranslatorInterface
+             * @var $translator Translator
              */
-            $translator = app(TranslatorInterface::class);
+            $translator = app(Translator::class);
 
             throw new ValidationException([
                 'recipients' => [
-                    $translator->trans('kilowhat-mailing.api.no_recipients'),
+                    $translator->get('kilowhat-mailing.api.no_recipients'),
                 ],
             ]);
         }

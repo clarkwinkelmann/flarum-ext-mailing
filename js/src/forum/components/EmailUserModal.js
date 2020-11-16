@@ -5,7 +5,7 @@ import LoadingIndicator from 'flarum/components/LoadingIndicator';
 import Group from 'flarum/models/Group';
 import username from 'flarum/helpers/username';
 import icon from 'flarum/helpers/icon';
-import FixedKeyboardNavigatable from '../utils/FixedKeyboardNavigatable';
+import KeyboardNavigatable from 'flarum/utils/KeyboardNavigatable';
 import SentModal from './SentModal';
 
 /* global m */
@@ -13,33 +13,33 @@ import SentModal from './SentModal';
 const EMAIL_REGEXP = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i;
 
 export default class EmailUserModal extends Modal {
-    init() {
-        super.init();
+    oninit(vnode) {
+        super.oninit(vnode);
 
         this.sending = false;
 
         this.recipients = [];
 
-        if (this.props.user) {
-            this.recipients.push(this.props.user);
+        if (this.attrs.user) {
+            this.recipients.push(this.attrs.user);
         }
 
-        if (this.props.forAll) {
+        if (this.attrs.forAll) {
             const membersGroup = app.store.getById('groups', Group.MEMBER_ID);
 
             this.recipients.push(membersGroup);
         }
 
-        this.subject = m.prop('');
-        this.messageText = m.prop('');
+        this.subject = '';
+        this.messageText = '';
 
         this.searchIndex = 0;
-        this.navigator = new FixedKeyboardNavigatable();
+        this.navigator = new KeyboardNavigatable();
         this.navigator
             .when(event => {
                 // Do not handle keyboard when TAB is pressed and there's nothing in field
                 // Without this it's impossible to TAB out of the field
-                return event.key !== 'Tab' || !!this.filter();
+                return event.key !== 'Tab' || !!this.filter;
             })
             .onUp(() => {
                 if (this.searchIndex > 0) {
@@ -60,7 +60,7 @@ export default class EmailUserModal extends Modal {
                 this.recipients.pop();
             });
 
-        this.filter = m.prop('');
+        this.filter = '';
         this.focused = false;
 
         this.loadingResults = false;
@@ -73,7 +73,7 @@ export default class EmailUserModal extends Modal {
     }
 
     title() {
-        return app.translator.trans('kilowhat-mailing.forum.modal_mail.title_text');
+        return app.translator.trans('clarkwinkelmann-mailing.forum.modal_mail.title_text');
     }
 
     onready() {
@@ -98,7 +98,7 @@ export default class EmailUserModal extends Modal {
                     ] : null,
                     recipient.namePlural(),
                 ]);
-            case 'kilowhat-mailing-emails':
+            case 'clarkwinkelmann-mailing-emails':
                 return m('.RecipientLabel', recipient.email());
         }
 
@@ -108,11 +108,11 @@ export default class EmailUserModal extends Modal {
     searchResultKind(recipient) {
         switch (recipient.data.type) {
             case 'users':
-                return app.translator.trans('kilowhat-mailing.forum.recipient_kinds.user');
+                return app.translator.trans('clarkwinkelmann-mailing.forum.recipient_kinds.user');
             case 'groups':
-                return app.translator.trans('kilowhat-mailing.forum.recipient_kinds.group');
-            case 'kilowhat-mailing-emails':
-                return app.translator.trans('kilowhat-mailing.forum.recipient_kinds.email');
+                return app.translator.trans('clarkwinkelmann-mailing.forum.recipient_kinds.group');
+            case 'clarkwinkelmann-mailing-emails':
+                return app.translator.trans('clarkwinkelmann-mailing.forum.recipient_kinds.email');
         }
 
         return '[unknown]';
@@ -124,7 +124,7 @@ export default class EmailUserModal extends Modal {
         }
 
         this.recipients.push(result);
-        this.filter('');
+        this.filter = '';
         this.searchResults = [];
     }
 
@@ -133,7 +133,7 @@ export default class EmailUserModal extends Modal {
             onsubmit: this.onsubmit.bind(this),
         }, [
             m('.Form-group', [
-                m('label', app.translator.trans('kilowhat-mailing.forum.modal_mail.recipients_label')),
+                m('label', app.translator.trans('clarkwinkelmann-mailing.forum.modal_mail.recipients_label')),
                 m('.RecipientsInput.FormControl', {
                     className: this.focused ? 'focus' : '',
                 }, [
@@ -144,12 +144,12 @@ export default class EmailUserModal extends Modal {
                         title: this.searchResultKind(recipient),
                     }, this.recipientLabel(recipient)))),
                     m('input.FormControl', {
-                        placeholder: app.translator.trans('kilowhat-mailing.forum.modal_mail.recipients_placeholder'),
-                        value: this.filter(),
-                        oninput: m.withAttr('value', value => {
-                            this.filter(value);
+                        placeholder: app.translator.trans('clarkwinkelmann-mailing.forum.modal_mail.recipients_placeholder'),
+                        value: this.filter,
+                        oninput: event => {
+                            this.filter = event.target.value;
                             this.performNewSearch();
-                        }),
+                        },
                         onkeydown: this.navigator.navigate.bind(this.navigator),
                         onfocus: () => {
                             this.focused = true;
@@ -177,18 +177,24 @@ export default class EmailUserModal extends Modal {
                 ]),
             ]),
             m('.Form-group', [
-                m('label', app.translator.trans('kilowhat-mailing.forum.modal_mail.subject_label')),
+                m('label', app.translator.trans('clarkwinkelmann-mailing.forum.modal_mail.subject_label')),
                 m('input[type=text].FormControl.js-focus-on-load', {
-                    bidi: this.subject,
-                    placeholder: app.translator.trans('kilowhat-mailing.forum.modal_mail.default_subject'),
+                    value: this.subject,
+                    oninput: event => {
+                        this.subject = event.target.value;
+                    },
+                    placeholder: app.translator.trans('clarkwinkelmann-mailing.forum.modal_mail.default_subject'),
                     disabled: this.sending,
                 }),
             ]),
             m('.Form-group', [
-                m('label', app.translator.trans('kilowhat-mailing.forum.modal_mail.message_label')),
+                m('label', app.translator.trans('clarkwinkelmann-mailing.forum.modal_mail.message_label')),
                 m('textarea.FormControl', {
                     rows: 10,
-                    bidi: this.messageText,
+                    value: this.messageText,
+                    oninput: event => {
+                        this.messageText = event.target.value;
+                    },
                     disabled: this.sending,
                 }),
             ]),
@@ -197,9 +203,8 @@ export default class EmailUserModal extends Modal {
                     type: 'submit',
                     className: 'Button Button--primary EditContactModal-save',
                     loading: this.sending,
-                    children: app.translator.trans('kilowhat-mailing.forum.modal_mail.submit_button'),
-                    disabled: this.recipients.length === 0 || this.messageText() === '',
-                }),
+                    disabled: this.recipients.length === 0 || this.messageText === '',
+                }, app.translator.trans('clarkwinkelmann-mailing.forum.modal_mail.submit_button')),
             ]),
         ]));
     }
@@ -207,7 +212,7 @@ export default class EmailUserModal extends Modal {
     performNewSearch() {
         this.searchIndex = 0;
 
-        const query = this.filter().toLowerCase();
+        const query = this.filter.toLowerCase();
 
         this.buildSearchResults(query);
 
@@ -256,18 +261,18 @@ export default class EmailUserModal extends Modal {
             }
         });
 
-        if (EMAIL_REGEXP.test(this.filter())) {
-            results.push(app.store.createRecord('kilowhat-mailing-emails', {
+        if (EMAIL_REGEXP.test(this.filter)) {
+            results.push(app.store.createRecord('clarkwinkelmann-mailing-emails', {
                 attributes: {
-                    email: this.filter(),
+                    email: this.filter,
                 },
             }));
         }
 
         this.searchResults = results.filter(result => {
-            if (result.data.type === 'kilowhat-mailing-emails') {
+            if (result.data.type === 'clarkwinkelmann-mailing-emails') {
                 return !this.recipients.some(
-                    recipient => recipient.data.type === 'kilowhat-mailing-emails' && recipient.email() === result.email()
+                    recipient => recipient.data.type === 'clarkwinkelmann-mailing-emails' && recipient.email() === result.email()
                 );
             }
 
@@ -287,10 +292,10 @@ export default class EmailUserModal extends Modal {
         app.request({
             method: 'POST',
             url: app.forum.attribute('apiUrl') + '/admin-mail',
-            data: {
+            body: {
                 data: {
                     recipients: this.recipients.map(recipient => {
-                        if (recipient.data.type === 'kilowhat-mailing-emails') {
+                        if (recipient.data.type === 'clarkwinkelmann-mailing-emails') {
                             return {
                                 type: recipient.data.type,
                                 attributes: {
@@ -304,17 +309,17 @@ export default class EmailUserModal extends Modal {
                             id: recipient.id(),
                         };
                     }),
-                    subject: this.subject(),
-                    text: this.messageText(),
+                    subject: this.subject,
+                    text: this.messageText,
                 },
             },
         }).then(
             response => {
                 this.hide();
 
-                app.modal.show(new SentModal({
+                app.modal.show(SentModal, {
                     recipientsCount: response.recipientsCount,
-                }));
+                });
             },
             response => {
                 this.sending = false;

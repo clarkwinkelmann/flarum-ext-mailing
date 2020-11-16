@@ -1,6 +1,6 @@
 <?php
 
-namespace Kilowhat\Mailing;
+namespace ClarkWinkelmann\Mailing;
 
 use Flarum\Extend;
 
@@ -13,5 +13,5 @@ return [
     new Extend\Locales(__DIR__ . '/resources/locale'),
     (new Extend\Routes('api'))
         ->post('/admin-mail', 'kilowhat.mailing.create-mail', Controllers\SendAdminEmailController::class),
-    new \Kilowhat\Mailing\Extend\Permissions,
+    new Extenders\Permissions(),
 ];

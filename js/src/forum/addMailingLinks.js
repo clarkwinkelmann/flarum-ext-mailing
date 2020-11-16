@@ -10,47 +10,43 @@ import EmailUserModal from './components/EmailUserModal';
 export default function () {
     extend(UserControls, 'moderationControls', (items, user) => {
         if (app.forum.kilowhatMailingCanMailIndividual()) {
-            items.add('kilowhat-mailing', Button.component({
+            items.add('clarkwinkelmann-mailing', Button.component({
                 icon: 'fas fa-envelope',
-                children: app.translator.trans('kilowhat-mailing.forum.links.mail_individual'),
                 onclick() {
-                    app.modal.show(new EmailUserModal({
+                    app.modal.show(EmailUserModal, {
                         user,
-                    }));
+                    });
                 },
-            }));
+            }, app.translator.trans('clarkwinkelmann-mailing.forum.links.mail_individual')));
         }
     });
 
     extend(SessionDropdown.prototype, 'items', items => {
         if (app.forum.kilowhatMailingCanMailAll()) {
-            items.add('kilowhat-mailing', Button.component({
+            items.add('clarkwinkelmann-mailing', Button.component({
                 icon: 'fas fa-envelope',
-                children: app.translator.trans('kilowhat-mailing.forum.links.mail_all'),
                 onclick() {
-                    app.modal.show(new EmailUserModal({
+                    app.modal.show(EmailUserModal, {
                         forAll: true,
-                    }));
+                    });
                 },
-            }));
+            }, app.translator.trans('clarkwinkelmann-mailing.forum.links.mail_all')));
         }
     });
 
-    // Supports both fof/user-directory and the now deprecated flagrow/user-directory
-    const userDirectory = flarum.extensions['fof-user-directory'] || flarum.extensions['flagrow-user-directory'];
+    const userDirectory = flarum.extensions['fof-user-directory'];
     if (userDirectory && userDirectory.UserDirectoryPage) {
         extend(userDirectory.UserDirectoryPage.prototype, 'actionItems', items => {
             if (app.forum.kilowhatMailingCanMailAll()) {
-                items.add('kilowhat-mailing', Button.component({
+                items.add('clarkwinkelmann-mailing', Button.component({
                     className: 'Button',
                     icon: 'fas fa-envelope',
-                    children: app.translator.trans('kilowhat-mailing.forum.links.mail_all'),
                     onclick() {
-                        app.modal.show(new EmailUserModal({
+                        app.modal.show(EmailUserModal, {
                             forAll: true,
-                        }));
+                        });
                     },
-                }), 10);
+                }, app.translator.trans('clarkwinkelmann-mailing.forum.links.mail_all')), 10);
             }
         });
     }

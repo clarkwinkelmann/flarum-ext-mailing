@@ -1,4 +1,4 @@
-kilowhat-mailing:
+clarkwinkelmann-mailing:
     admin:
         permissions:
             mail_individual: Send emails to individual users
@@ -13,7 +13,7 @@ kilowhat-mailing:
             recipients_label: Recipients
             recipients_placeholder: Type other recipients...
             subject_label: Subject
-            default_subject: => kilowhat-mailing.ref.default_subject
+            default_subject: => clarkwinkelmann-mailing.ref.default_subject
             message_label: Message
             submit_button: Send
         modal_sent:
@@ -28,7 +28,7 @@ kilowhat-mailing:
         no_recipients: No recipient were matched
 
     email:
-        default_subject: => kilowhat-mailing.ref.default_subject
+        default_subject: => clarkwinkelmann-mailing.ref.default_subject
 
     ref:
         default_subject: Message from forum administration

@@ -1,14 +1,14 @@
-# Mailing extension for Flarum
+# Mailing
 
-[![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/kilowhat/flarum-ext-mailing/blob/master/LICENSE.md) [![Latest Stable Version](https://img.shields.io/packagist/v/kilowhat/flarum-ext-mailing.svg)](https://packagist.org/packages/kilowhat/flarum-ext-mailing) [![Total Downloads](https://img.shields.io/packagist/dt/kilowhat/flarum-ext-mailing.svg)](https://packagist.org/packages/kilowhat/flarum-ext-mailing)
+![License](https://img.shields.io/badge/license-MIT-blue.svg) [![Latest Stable Version](https://img.shields.io/packagist/v/clarkwinkelmann/flarum-ext-mailing.svg)](https://packagist.org/packages/clarkwinkelmann/flarum-ext-mailing) [![Total Downloads](https://img.shields.io/packagist/dt/clarkwinkelmann/flarum-ext-mailing.svg)](https://packagist.org/packages/clarkwinkelmann/flarum-ext-mailing) [![Donate](https://img.shields.io/badge/paypal-donate-yellow.svg)](https://www.paypal.me/clarkwinkelmann)
 
 Send individual or mass mailing to Flarum users.
 
 ## Installation
 
-```bash
-composer require kilowhat/flarum-ext-mailing
-```
+    composer require clarkwinkelmann/flarum-ext-mailing
+
+Pre-beta 14 the package was called `kilowhat/flarum-ext-mailing`.
 
 ## Documentation
 
@@ -24,15 +24,19 @@ Two permissions allow you to select which groups can send individual emails and 
 
 **Send emails to groups or all users**: allows to select groups, including "Members" to send to all registered users.
 
-## A KILOWHAT extension
+## Support
 
-This extension was written by Clark Winkelmann as part of a client contract and released under the MIT license in the hope that the code will be useful to others.
+This extension is under **minimal maintenance**.
 
-This extension is published on Packagist and you are welcome to install it on your own forum, however **no free support is offered**.
+It was developed for a client and released as open-source for the benefit of the community.
+I might publish simple bugfixes or compatibility updates for free.
 
-Please [contact me](https://clarkwinkelmann.com/flarum) if you are interested in contracting me to add features or update this extension.
+You can [contact me](https://clarkwinkelmann.com/flarum) to sponsor additional features or updates.
+
+Support is offered on a "best effort" basis through the Flarum community thread.
 
 ## Links
 
-- [Source on GitHub](https://github.com/kilowhat/flarum-ext-mailing)
-- [Package on Packagist](https://packagist.org/packages/kilowhat/flarum-ext-mailing)
+- [GitHub](https://github.com/clarkwinkelmann/flarum-ext-mailing)
+- [Packagist](https://packagist.org/packages/clarkwinkelmann/flarum-ext-mailing)
+- [Discuss](https://discuss.flarum.org/d/25357)
