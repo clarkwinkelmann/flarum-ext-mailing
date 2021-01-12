@@ -2,6 +2,7 @@
 
 namespace ClarkWinkelmann\Mailing;
 
+use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Extend;
 
 return [
@@ -13,5 +14,13 @@ return [
     new Extend\Locales(__DIR__ . '/resources/locale'),
     (new Extend\Routes('api'))
         ->post('/admin-mail', 'kilowhat.mailing.create-mail', Controllers\SendAdminEmailController::class),
-    new Extenders\Permissions(),
+    (new Extend\ApiSerializer(ForumSerializer::class))
+        ->mutate(function (ForumSerializer $serializer) {
+            $actor = $serializer->getActor();
+
+            return [
+                'kilowhatMailingCanMailAll' => $actor->can('kilowhat-mailing.mail-all'),
+                'kilowhatMailingCanMailIndividual' => $actor->can('kilowhat-mailing.mail-individual'),
+            ];
+        }),
 ];

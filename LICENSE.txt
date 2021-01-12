@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2019-2020 Clark Winkelmann
+Copyright (c) 2019-2021 Clark Winkelmann
 Copyright (c) 2018 David Sevilla Martín
 Copyright (c) 2016-2017 Flagrow
 
