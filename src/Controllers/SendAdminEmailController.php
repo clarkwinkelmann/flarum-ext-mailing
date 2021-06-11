@@ -4,6 +4,7 @@ namespace ClarkWinkelmann\Mailing\Controllers;
 
 use Flarum\Foundation\ValidationException;
 use Flarum\Group\Group;
+use Flarum\Http\RequestUtil;
 use Flarum\User\UserRepository;
 use Illuminate\Contracts\Queue\Queue;
 use Illuminate\Contracts\Translation\Translator;
@@ -28,7 +29,7 @@ class SendAdminEmailController implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $actor = $request->getAttribute('actor');
+        $actor = RequestUtil::getActor($request);
 
         $data = Arr::get($request->getParsedBody(), 'data', []);
         $recipients = collect(Arr::get($data, 'recipients', []));
@@ -88,7 +89,7 @@ class SendAdminEmailController implements RequestHandlerInterface
             /**
              * @var $translator Translator
              */
-            $translator = app(Translator::class);
+            $translator = resolve(Translator::class);
 
             throw new ValidationException([
                 'recipients' => [

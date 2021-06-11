@@ -1,11 +1,11 @@
-import app from 'flarum/app';
-import Modal from 'flarum/components/Modal';
-import Button from 'flarum/components/Button';
-import LoadingIndicator from 'flarum/components/LoadingIndicator';
-import Group from 'flarum/models/Group';
-import username from 'flarum/helpers/username';
-import icon from 'flarum/helpers/icon';
-import KeyboardNavigatable from 'flarum/utils/KeyboardNavigatable';
+import app from 'flarum/forum/app';
+import Modal from 'flarum/common/components/Modal';
+import Button from 'flarum/common/components/Button';
+import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
+import Group from 'flarum/common/models/Group';
+import username from 'flarum/common/helpers/username';
+import icon from 'flarum/common/helpers/icon';
+import KeyboardNavigatable from 'flarum/common/utils/KeyboardNavigatable';
 import SentModal from './SentModal';
 
 /* global m */
@@ -160,8 +160,7 @@ export default class EmailUserModal extends Modal {
                         disabled: this.sending,
                     }),
                     this.loadingResults ? LoadingIndicator.component({
-                        size: 'tiny',
-                        className: 'Button Button--icon Button--link',
+                        size: 'small',
                     }) : null,
                     this.searchResults.length ? m('ul.Dropdown-menu', this.searchResults.map(
                         (result, index) => m('li', {

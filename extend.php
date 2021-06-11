@@ -15,7 +15,7 @@ return [
     (new Extend\Routes('api'))
         ->post('/admin-mail', 'kilowhat.mailing.create-mail', Controllers\SendAdminEmailController::class),
     (new Extend\ApiSerializer(ForumSerializer::class))
-        ->mutate(function (ForumSerializer $serializer) {
+        ->attributes(function (ForumSerializer $serializer): array {
             $actor = $serializer->getActor();
 
             return [

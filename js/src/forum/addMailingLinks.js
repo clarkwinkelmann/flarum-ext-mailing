@@ -1,8 +1,8 @@
-import {extend} from 'flarum/extend';
-import app from 'flarum/app';
-import Button from 'flarum/components/Button';
-import UserControls from 'flarum/utils/UserControls';
-import SessionDropdown from 'flarum/components/SessionDropdown';
+import {extend} from 'flarum/common/extend';
+import app from 'flarum/forum/app';
+import Button from 'flarum/common/components/Button';
+import UserControls from 'flarum/forum/utils/UserControls';
+import SessionDropdown from 'flarum/forum/components/SessionDropdown';
 import EmailUserModal from './components/EmailUserModal';
 
 /* global flarum */

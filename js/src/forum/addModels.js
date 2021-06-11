@@ -1,6 +1,6 @@
-import app from 'flarum/app';
-import Model from 'flarum/Model';
-import Forum from 'flarum/models/Forum';
+import app from 'flarum/forum/app';
+import Model from 'flarum/common/Model';
+import Forum from 'flarum/common/models/Forum';
 import Email from './models/Email';
 
 export default function () {
