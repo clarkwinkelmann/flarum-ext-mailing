@@ -1,10 +1,12 @@
 import app from 'flarum/forum/app';
-import Modal from 'flarum/common/components/Modal';
+import Modal, {IInternalModalAttrs} from 'flarum/common/components/Modal';
 import icon from 'flarum/common/helpers/icon';
 
-/* global m */
+interface SentModalAttrs extends IInternalModalAttrs {
+    recipientsCount: number
+}
 
-export default class SentModal extends Modal {
+export default class SentModal extends Modal<SentModalAttrs> {
     className() {
         return 'KilowhatMailingSentModal Modal--small';
     }

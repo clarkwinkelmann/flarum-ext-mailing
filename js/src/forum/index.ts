@@ -1,8 +1,8 @@
 import app from 'flarum/forum/app';
-import addModels from './addModels';
 import addMailingLinks from './addMailingLinks';
 
+export {default as extend} from './extend';
+
 app.initializers.add('clarkwinkelmann-mailing', () => {
-    addModels();
     addMailingLinks();
 });

@@ -8,8 +8,6 @@ Send individual or mass mailing to Flarum users.
 
     composer require clarkwinkelmann/flarum-ext-mailing
 
-Pre-beta 14 the package was called `kilowhat/flarum-ext-mailing`.
-
 ## Documentation
 
 The individual user mailing button can be found in the user card dropdown menu, including the user profile page and while hovering a username in a discussion.

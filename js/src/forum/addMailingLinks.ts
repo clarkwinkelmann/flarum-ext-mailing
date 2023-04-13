@@ -5,8 +5,6 @@ import UserControls from 'flarum/forum/utils/UserControls';
 import SessionDropdown from 'flarum/forum/components/SessionDropdown';
 import EmailUserModal from './components/EmailUserModal';
 
-/* global flarum */
-
 export default function () {
     extend(UserControls, 'moderationControls', (items, user) => {
         if (app.forum.kilowhatMailingCanMailIndividual()) {
