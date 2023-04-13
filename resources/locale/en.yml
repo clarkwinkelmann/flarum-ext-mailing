@@ -15,6 +15,7 @@ clarkwinkelmann-mailing:
             subject_label: Subject
             default_subject: => clarkwinkelmann-mailing.ref.default_subject
             message_label: Message
+            as_html_label: Send as HTML
             submit_button: Send
         modal_sent:
             title_text: Mail Sent!

@@ -2,6 +2,7 @@ import {Vnode} from 'mithril';
 import app from 'flarum/forum/app';
 import Modal, {IInternalModalAttrs} from 'flarum/common/components/Modal';
 import Button from 'flarum/common/components/Button';
+import Switch from 'flarum/common/components/Switch';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import Group from 'flarum/common/models/Group';
 import User from 'flarum/common/models/User';
@@ -25,6 +26,7 @@ export default class EmailUserModal extends Modal<EmailUserModalAttrs> {
     recipients: Recipient[] = []
     subject: string = ''
     messageText: string = ''
+    asHtml: boolean = false
     searchIndex: number = 0
     navigator: KeyboardNavigatable = new KeyboardNavigatable()
     filter: string = ''
@@ -205,6 +207,15 @@ export default class EmailUserModal extends Modal<EmailUserModalAttrs> {
                 }),
             ]),
             m('.Form-group', [
+                Switch.component({
+                    state: this.asHtml,
+                    onchange: (value: boolean) => {
+                        this.asHtml = value;
+                    },
+                    disabled: this.sending,
+                }, app.translator.trans('clarkwinkelmann-mailing.forum.modal_mail.as_html_label')),
+            ]),
+            m('.Form-group', [
                 Button.component({
                     type: 'submit',
                     className: 'Button Button--primary EditContactModal-save',
@@ -317,6 +328,7 @@ export default class EmailUserModal extends Modal<EmailUserModalAttrs> {
                     }),
                     subject: this.subject,
                     text: this.messageText,
+                    asHtml: this.asHtml,
                 },
             },
         }).then(

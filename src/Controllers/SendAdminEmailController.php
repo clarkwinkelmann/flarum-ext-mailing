@@ -18,21 +18,18 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class SendAdminEmailController implements RequestHandlerInterface
 {
-    protected $users;
-    protected $queue;
-
-    public function __construct(UserRepository $users, Queue $queue)
+    public function __construct(
+        protected UserRepository $users,
+        protected Queue          $queue)
     {
-        $this->users = $users;
-        $this->queue = $queue;
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $actor = RequestUtil::getActor($request);
 
-        $data = Arr::get($request->getParsedBody(), 'data', []);
-        $recipients = collect(Arr::get($data, 'recipients', []));
+        $data = (array)Arr::get($request->getParsedBody(), 'data');
+        $recipients = collect((array)Arr::get($data, 'recipients'));
 
         $userIds = $recipients->filter(function ($model) {
             return Arr::get($model, 'type') === 'users';
@@ -69,18 +66,22 @@ class SendAdminEmailController implements RequestHandlerInterface
                 });
         }
 
+        $subject = (string)Arr::get($data, 'subject');
+        $text = (string)Arr::get($data, 'text');
+        $html = (bool)Arr::get($data, 'asHtml');
+
         $recipientCount = 0;
 
-        $userQuery->chunk(50, function ($users) use ($data, &$recipientCount) {
+        $userQuery->chunk(50, function ($users) use ($subject, $text, $html, &$recipientCount) {
             foreach ($users as $user) {
-                $this->queue->push(new SendMail($user->email, $data['subject'], $data['text']));
+                $this->queue->push(new SendMail($user->email, $subject, $text, $html));
 
                 $recipientCount++;
             }
         });
 
         foreach ($emails as $email) {
-            $this->queue->push(new SendMail($email, $data['subject'], $data['text']));
+            $this->queue->push(new SendMail($email, $subject, $text, $html));
 
             $recipientCount++;
         }
